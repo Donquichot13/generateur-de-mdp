@@ -1,0 +1,116 @@
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Générateur de mots de passe</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f4037, #99f2c8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .input-group {
+      margin-bottom: 1rem;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .input-group input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+    }
+    .input-group input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    #password {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 1rem 0;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #1f4037;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #16362c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Générateur de mot de passe</h1>
+    <div class="input-group">
+      <label for="length">Longueur :</label>
+      <input type="number" id="length" min="4" max="50" value="12" />
+    </div>
+    <div class="input-group">
+      <label><input type="checkbox" id="uppercase" checked /> Lettres majuscules</label>
+      <label><input type="checkbox" id="lowercase" checked /> Lettres minuscules</label>
+      <label><input type="checkbox" id="numbers" checked /> Chiffres</label>
+      <label><input type="checkbox" id="symbols" checked /> Symboles</label>
+    </div>
+    <input type="text" id="password" readonly placeholder="Votre mot de passe..." />
+    <button onclick="generatePassword()">Générer</button>
+  </div>
+
+  <script>
+    function generatePassword() {
+      const length = parseInt(document.getElementById("length").value);
+      const includeUppercase = document.getElementById("uppercase").checked;
+      const includeLowercase = document.getElementById("lowercase").checked;
+      const includeNumbers = document.getElementById("numbers").checked;
+      const includeSymbols = document.getElementById("symbols").checked;
+
+      const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+      const numberChars = "0123456789";
+      const symbolChars = "!@#$%^&*()-_=+<>?/";
+
+      let allChars = "";
+      if (includeUppercase) allChars += uppercaseChars;
+      if (includeLowercase) allChars += lowercaseChars;
+      if (includeNumbers) allChars += numberChars;
+      if (includeSymbols) allChars += symbolChars;
+
+      if (allChars === "") {
+        alert("Veuillez sélectionner au moins un type de caractère.");
+        return;
+      }
+
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        const index = Math.floor(Math.random() * allChars.length);
+        password += allChars[index];
+      }
+
+      document.getElementById("password").value = password;
+    }
+  </script>
+</body>
+</html>
